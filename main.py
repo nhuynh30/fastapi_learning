@@ -23,16 +23,14 @@ products = [
 
 def init_db():
     db = SessionLocal()
-    try:
-        if db.query(database_models.Product).count() == 0:
-            for product in products:
-                db.add(database_models.Product(**product.model_dump()))
-            db.commit()
-    finally:
-        db.close()
 
+    for product in products:
+        db.add(database_models.Product(**product.model_dump()))
+
+    db.commit()
+
+   
 init_db()
-
 
 @app.get("/products")
 def get_all_products():
